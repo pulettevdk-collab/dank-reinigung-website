@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Carousel scroll animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-350px * 3 - 2rem * 3));
+  }
+}
+
+/* Pause animation on hover */
+.hover\:pause-animation:hover {
+  animation-play-state: paused;
+}
+
+/* Carousel pause on hover */
+.carousel-container:hover .carousel-track {
+  animation-play-state: paused !important;
+}
+
+/* Soap bubble trail animation */
+@keyframes bubble {
+  0% {
+    opacity: 0.5;
+    transform: scale(0) translateY(0);
+  }
+  30% {
+    opacity: 0.6;
+    transform: scale(1.2) translateY(-15px);
+  }
+  70% {
+    opacity: 0.4;
+    transform: scale(1) translateY(-40px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-60px);
+  }
+}
+
+.bubble {
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.5),
+    rgba(125, 211, 252, 0.35) 40%,
+    rgba(56, 189, 248, 0.25) 60%,
+    rgba(14, 165, 233, 0.15)
+  );
+  border: 2px solid rgba(125, 211, 252, 0.25);
+  box-shadow:
+    inset 0 0 20px rgba(255, 255, 255, 0.3),
+    inset 10px 10px 20px rgba(125, 211, 252, 0.15),
+    0 0 10px rgba(125, 211, 252, 0.2);
+}
+
+.animate-bubble {
+  animation: bubble 2s ease-out forwards;
+}
