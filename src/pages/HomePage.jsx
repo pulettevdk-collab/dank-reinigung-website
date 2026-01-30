@@ -281,10 +281,15 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 blur-xl bg-[#5aec8b]/30 animate-pulse"></div>
                   {/* Floating bubbles around logo */}
-                  <div className="absolute -inset-4 pointer-events-none" aria-hidden="true">
+                  <div className="absolute -inset-8 pointer-events-none" aria-hidden="true">
                     <div className="logo-bubble logo-bubble-1"></div>
                     <div className="logo-bubble logo-bubble-2"></div>
                     <div className="logo-bubble logo-bubble-3"></div>
+                    <div className="logo-bubble logo-bubble-4"></div>
+                    <div className="logo-bubble logo-bubble-5"></div>
+                    <div className="logo-bubble logo-bubble-6"></div>
+                    <div className="logo-bubble logo-bubble-7"></div>
+                    <div className="logo-bubble logo-bubble-8"></div>
                   </div>
                 </div>
               </div>
@@ -926,10 +931,15 @@ export default function HomePage() {
                   className="w-24 h-24 md:w-32 md:h-32 object-contain relative z-10"
                 />
                 {/* Floating bubbles around logo */}
-                <div className="absolute -inset-4 pointer-events-none" aria-hidden="true">
+                <div className="absolute -inset-8 pointer-events-none" aria-hidden="true">
                   <div className="logo-bubble logo-bubble-1"></div>
                   <div className="logo-bubble logo-bubble-2"></div>
                   <div className="logo-bubble logo-bubble-3"></div>
+                  <div className="logo-bubble logo-bubble-4"></div>
+                  <div className="logo-bubble logo-bubble-5"></div>
+                  <div className="logo-bubble logo-bubble-6"></div>
+                  <div className="logo-bubble logo-bubble-7"></div>
+                  <div className="logo-bubble logo-bubble-8"></div>
                 </div>
               </div>
               <p className="text-sm text-gray-600 dark:text-slate-400 text-center md:text-left">
