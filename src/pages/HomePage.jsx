@@ -197,6 +197,7 @@ export default function HomePage() {
     "Eberswalde",
     "Bernau",
     "Bad Freinwalde",
+    "Angermünde",
     "Umgebung",
   ];
 
