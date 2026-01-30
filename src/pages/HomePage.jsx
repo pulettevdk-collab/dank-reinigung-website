@@ -273,13 +273,19 @@ export default function HomePage() {
                 className="flex items-center cursor-pointer"
                 onClick={() => scrollToSection("home")}
               >
-                <div className="relative">
+                <div className="relative logo-container">
                   <img
                     src="/images/logo.svg"
                     alt="Dank Reinigung Logo"
-                    className="w-24 h-24 md:w-32 md:h-32 object-contain"
+                    className="w-24 h-24 md:w-32 md:h-32 object-contain relative z-10"
                   />
                   <div className="absolute inset-0 blur-xl bg-[#5aec8b]/30 animate-pulse"></div>
+                  {/* Floating bubbles around logo */}
+                  <div className="absolute -inset-4 pointer-events-none" aria-hidden="true">
+                    <div className="logo-bubble logo-bubble-1"></div>
+                    <div className="logo-bubble logo-bubble-2"></div>
+                    <div className="logo-bubble logo-bubble-3"></div>
+                  </div>
                 </div>
               </div>
 
@@ -913,12 +919,20 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* Logo Column */}
             <div className="flex flex-col items-center md:items-start">
-              <img
-                src="/images/logo.svg"
-                alt="Dank Reinigung Logo"
-                className="w-24 h-24 md:w-32 md:h-32 object-contain mb-4"
-              />
-              <p className="text-sm text-gray-600 text-center md:text-left">
+              <div className="relative logo-container mb-4">
+                <img
+                  src="/images/logo.svg"
+                  alt="Dank Reinigung Logo"
+                  className="w-24 h-24 md:w-32 md:h-32 object-contain relative z-10"
+                />
+                {/* Floating bubbles around logo */}
+                <div className="absolute -inset-4 pointer-events-none" aria-hidden="true">
+                  <div className="logo-bubble logo-bubble-1"></div>
+                  <div className="logo-bubble logo-bubble-2"></div>
+                  <div className="logo-bubble logo-bubble-3"></div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-slate-400 text-center md:text-left">
                 Professionelle Reinigungsdienstleistungen in Berlin und Umgebung
               </p>
             </div>

@@ -93,3 +93,84 @@ body {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* Floating bubbles around logo */
+.logo-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.6),
+    rgba(125, 211, 252, 0.4) 40%,
+    rgba(56, 189, 248, 0.3) 60%,
+    rgba(14, 165, 233, 0.2)
+  );
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  box-shadow:
+    inset 0 0 10px rgba(255, 255, 255, 0.4),
+    0 0 15px rgba(125, 211, 252, 0.2);
+}
+
+.logo-bubble-1 {
+  width: 12px;
+  height: 12px;
+  top: 10%;
+  right: 10%;
+  animation: float-1 4s ease-in-out infinite;
+}
+
+.logo-bubble-2 {
+  width: 8px;
+  height: 8px;
+  bottom: 15%;
+  left: 5%;
+  animation: float-2 5s ease-in-out infinite;
+}
+
+.logo-bubble-3 {
+  width: 10px;
+  height: 10px;
+  top: 50%;
+  right: 5%;
+  animation: float-3 6s ease-in-out infinite;
+}
+
+@keyframes float-1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-10px, -15px) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+@keyframes float-2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(10px, -12px) scale(1.3);
+    opacity: 0.7;
+  }
+}
+
+@keyframes float-3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-8px, 10px) scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Hide logo bubbles if user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .logo-bubble {
+    display: none;
+  }
+}
