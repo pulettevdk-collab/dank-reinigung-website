@@ -96,7 +96,7 @@ const locations = [
 
 const testimonials = [
   {
-    name: "Sarah Weber",
+    name: "Sarah Weberr",
     role: "Privatkundin, Berlin",
     rating: 5,
     text: "Absolut zuverlässig und gründlich! Das Team von Dank Reinigung hat unsere Wohnung makellos sauber gemacht. Besonders beeindruckt hat mich die Aufmerksamkeit für Details.",
