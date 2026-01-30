@@ -95,7 +95,9 @@ export default function HomePage() {
   // Mouse bubble trail effect (respects prefers-reduced-motion)
   useEffect(() => {
     // Check if user prefers reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     if (prefersReducedMotion) {
       return; // Don't add bubble effect if user prefers reduced motion
@@ -185,7 +187,7 @@ export default function HomePage() {
   ];
 
   const stats = [
-    { number: "7+", label: "Jahre Erfahrung" },
+    { number: "10+", label: "Jahre Erfahrung" },
     { number: "100%", label: "Kundenzufriedenheit" },
     { number: "5", label: "Standorte" },
   ];
@@ -256,641 +258,657 @@ export default function HomePage() {
 
       {/* Navigation */}
       <header>
-      <nav
-        role="navigation"
-        aria-label="Main navigation"
-        className={`fixed w-full z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-white/70 backdrop-blur-md shadow-lg"
-            : "bg-white/60 backdrop-blur-sm"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div
-              className="flex items-center cursor-pointer"
-              onClick={() => scrollToSection("home")}
-            >
-              <div className="relative">
-                <img
-                  src="/images/logo.svg"
-                  alt="Dank Reinigung Logo"
-                  className="w-24 h-24 md:w-32 md:h-32 object-contain"
-                />
-                <div className="absolute inset-0 blur-xl bg-[#5aec8b]/30 animate-pulse"></div>
+        <nav
+          role="navigation"
+          aria-label="Main navigation"
+          className={`fixed w-full z-50 transition-all duration-500 ${
+            scrolled
+              ? "bg-white/70 backdrop-blur-md shadow-lg"
+              : "bg-white/60 backdrop-blur-sm"
+          }`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-20">
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => scrollToSection("home")}
+              >
+                <div className="relative">
+                  <img
+                    src="/images/logo.svg"
+                    alt="Dank Reinigung Logo"
+                    className="w-24 h-24 md:w-32 md:h-32 object-contain"
+                  />
+                  <div className="absolute inset-0 blur-xl bg-[#5aec8b]/30 animate-pulse"></div>
+                </div>
+              </div>
+
+              {/* Desktop Menu */}
+              <div className="hidden md:flex items-center space-x-8">
+                {["Home", "Services", "About", "Locations", "Contact"].map(
+                  (item) => (
+                    <button
+                      key={item}
+                      onClick={() => scrollToSection(item.toLowerCase())}
+                      className={`relative text-sm font-medium transition-colors duration-300 ${
+                        activeSection === item.toLowerCase()
+                          ? "text-[#5aec8b]"
+                          : "text-gray-700 hover:text-[#5aec8b]"
+                      }`}
+                    >
+                      {item}
+                      {activeSection === item.toLowerCase() && (
+                        <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#5aec8b] animate-[slideIn_0.3s_ease-out]"></span>
+                      )}
+                    </button>
+                  ),
+                )}
+
+                {/* Theme Toggle Button */}
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-lg hover:bg-gray-200/50 transition-colors"
+                  aria-label="Toggle theme"
+                >
+                  {theme === "light" ? (
+                    <Moon className="w-5 h-5 text-gray-700" />
+                  ) : (
+                    <Sun className="w-5 h-5 text-[#5aec8b]" />
+                  )}
+                </button>
+              </div>
+
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden text-gray-700 hover:text-[#5aec8b] transition-colors"
+              >
+                {mobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-t border-gray-200 dark:border-slate-700">
+              <div className="px-4 py-6 space-y-4">
+                {["Home", "Services", "About", "Locations", "Contact"].map(
+                  (item) => (
+                    <button
+                      key={item}
+                      onClick={() => scrollToSection(item.toLowerCase())}
+                      className="block w-full text-left text-lg font-medium text-gray-700 dark:text-slate-300 hover:text-[#5aec8b] transition-colors"
+                    >
+                      {item}
+                    </button>
+                  ),
+                )}
+
+                {/* Theme Toggle in Mobile Menu */}
+                <button
+                  onClick={toggleTheme}
+                  className="flex items-center gap-3 w-full text-left text-lg font-medium text-gray-700 dark:text-slate-300 hover:text-[#5aec8b] transition-colors pt-2 border-t border-gray-200 dark:border-slate-700"
+                  aria-label="Toggle dark mode"
+                >
+                  {theme === "light" ? (
+                    <>
+                      <Moon className="w-5 h-5" />
+                      <span>Dark Mode</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sun className="w-5 h-5" />
+                      <span>Light Mode</span>
+                    </>
+                  )}
+                </button>
               </div>
             </div>
-
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-8">
-              {["Home", "Services", "About", "Locations", "Contact"].map(
-                (item) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className={`relative text-sm font-medium transition-colors duration-300 ${
-                      activeSection === item.toLowerCase()
-                        ? "text-[#5aec8b]"
-                        : "text-gray-700 hover:text-[#5aec8b]"
-                    }`}
-                  >
-                    {item}
-                    {activeSection === item.toLowerCase() && (
-                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#5aec8b] animate-[slideIn_0.3s_ease-out]"></span>
-                    )}
-                  </button>
-                ),
-              )}
-
-              {/* Theme Toggle Button */}
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg hover:bg-gray-200/50 transition-colors"
-                aria-label="Toggle theme"
-              >
-                {theme === "light" ? (
-                  <Moon className="w-5 h-5 text-gray-700" />
-                ) : (
-                  <Sun className="w-5 h-5 text-[#5aec8b]" />
-                )}
-              </button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-gray-700 hover:text-[#5aec8b] transition-colors"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-t border-gray-200 dark:border-slate-700">
-            <div className="px-4 py-6 space-y-4">
-              {["Home", "Services", "About", "Locations", "Contact"].map(
-                (item) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className="block w-full text-left text-lg font-medium text-gray-700 dark:text-slate-300 hover:text-[#5aec8b] transition-colors"
-                  >
-                    {item}
-                  </button>
-                ),
-              )}
-
-              {/* Theme Toggle in Mobile Menu */}
-              <button
-                onClick={toggleTheme}
-                className="flex items-center gap-3 w-full text-left text-lg font-medium text-gray-700 dark:text-slate-300 hover:text-[#5aec8b] transition-colors pt-2 border-t border-gray-200 dark:border-slate-700"
-                aria-label="Toggle dark mode"
-              >
-                {theme === "light" ? (
-                  <>
-                    <Moon className="w-5 h-5" />
-                    <span>Dark Mode</span>
-                  </>
-                ) : (
-                  <>
-                    <Sun className="w-5 h-5" />
-                    <span>Light Mode</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        )}
-      </nav>
+          )}
+        </nav>
       </header>
 
       {/* Main Content */}
       <main id="main-content">
-      {/* Hero Section */}
-      <section
-        id="home"
-        aria-label="Hero section"
-        className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
-      >
-        {/* Background Video */}
-        <div className="absolute inset-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-            onLoadedMetadata={(e) => {
-              e.currentTarget.playbackRate = 1.5;
-            }}
-          >
-            <source src="/images/hero-video.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-900/80 to-slate-900/85 dark:from-slate-950/95 dark:via-slate-950/90 dark:to-slate-950/95"></div>
-        </div>
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#5aec8b]/20 rounded-full blur-3xl animate-pulse"></div>
-          <div
-            className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#5aec8b]/10 rounded-full blur-3xl animate-pulse"
-            style={{ animationDelay: "1s" }}
-          ></div>
-        </div>
+        {/* Hero Section */}
+        <section
+          id="home"
+          aria-label="Hero section"
+          className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+        >
+          {/* Background Video */}
+          <div className="absolute inset-0">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+              onLoadedMetadata={(e) => {
+                e.currentTarget.playbackRate = 1.5;
+              }}
+            >
+              <source src="/images/hero-video.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-900/80 to-slate-900/85 dark:from-slate-950/95 dark:via-slate-950/90 dark:to-slate-950/95"></div>
+          </div>
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#5aec8b]/20 rounded-full blur-3xl animate-pulse"></div>
+            <div
+              className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#5aec8b]/10 rounded-full blur-3xl animate-pulse"
+              style={{ animationDelay: "1s" }}
+            ></div>
+          </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="space-y-8 animate-[fadeInUp_1s_ease-out]">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-              <span className="block text-white drop-shadow-lg mb-4">
-                Entdecken Sie
-              </span>
-              <span className="block bg-gradient-to-r from-[#5aec8b] via-[#4dd67d] to-[#3bc56e] bg-clip-text text-transparent drop-shadow-lg">
-                Einwandfreie Sauberkeit
-              </span>
-            </h1>
-
-            <p className="text-xl sm:text-2xl text-white/90 drop-shadow-lg max-w-3xl mx-auto leading-relaxed">
-              Professionelle Reinigungsdienstleistungen für Ihr Zuhause und
-              Büro. Für makellose Sauberkeit - unsere Profi-Reinigung.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-              <button
-                onClick={() => scrollToSection("contact")}
-                className="group relative px-8 py-4 bg-[#5aec8b] hover:bg-[#4dd67d] text-white rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-[#5aec8b]/50 transition-all duration-300 hover:scale-105"
-              >
-                <span className="flex items-center gap-2">
-                  Kostenloses Angebot
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="space-y-8 animate-[fadeInUp_1s_ease-out]">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+                <span className="block text-white drop-shadow-lg mb-4">
+                  Entdecken Sie
                 </span>
-              </button>
+                <span className="block bg-gradient-to-r from-[#5aec8b] via-[#4dd67d] to-[#3bc56e] bg-clip-text text-transparent drop-shadow-lg">
+                  Einwandfreie Sauberkeit
+                </span>
+              </h1>
 
-              <button
-                onClick={() => scrollToSection("services")}
-                className="px-8 py-4 border-2 border-[#5aec8b] text-[#5aec8b] rounded-full font-semibold text-lg hover:bg-[#5aec8b]/10 transition-all duration-300"
-              >
-                Unsere Services
-              </button>
+              <p className="text-xl sm:text-2xl text-white/90 drop-shadow-lg max-w-3xl mx-auto leading-relaxed">
+                Professionelle Reinigungsdienstleistungen für Ihr Zuhause und
+                Büro. Für makellose Sauberkeit - unsere Profi-Reinigung.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
+                <button
+                  onClick={() => scrollToSection("contact")}
+                  className="group relative px-8 py-4 bg-[#5aec8b] hover:bg-[#4dd67d] text-white rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-[#5aec8b]/50 transition-all duration-300 hover:scale-105"
+                >
+                  <span className="flex items-center gap-2">
+                    Kostenloses Angebot
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => scrollToSection("services")}
+                  className="px-8 py-4 border-2 border-[#5aec8b] text-[#5aec8b] rounded-full font-semibold text-lg hover:bg-[#5aec8b]/10 transition-all duration-300"
+                >
+                  Unsere Services
+                </button>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto pt-16">
+                {stats.map((stat, index) => (
+                  <div
+                    key={index}
+                    className="text-center animate-[fadeInUp_1s_ease-out]"
+                    style={{
+                      animationDelay: `${0.2 + index * 0.1}s`,
+                      animationFillMode: "both",
+                    }}
+                  >
+                    <div className="text-4xl font-bold bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
+                      {stat.number}
+                    </div>
+                    <div className="text-sm text-white/80 mt-2">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Services Section */}
+        <section
+          id="services"
+          className="relative py-32 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-slate-950 dark:to-slate-900"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              id="services-title"
+              data-animate
+              className={`text-center mb-20 transition-all duration-1000 ${
+                isVisible["services-title"]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+                <span className="bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
+                  Unsere Dienstleistungen
+                </span>
+              </h2>
+              <p className="text-xl text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
+                Qualität und Schnelligkeit garantiert - mehr als 7 Jahre
+                Erfahrung
+              </p>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto pt-16">
-              {stats.map((stat, index) => (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.map((service, index) => {
+                const Icon = service.icon;
+                return (
+                  <div
+                    key={index}
+                    id={`service-${index}`}
+                    data-animate
+                    className={`group relative bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-xl hover:shadow-cyan-500/20 hover:scale-[1.02] ${
+                      isVisible[`service-${index}`]
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-10"
+                    }`}
+                    style={{ transitionDelay: `${index * 0.1}s` }}
+                  >
+                    {/* Service Image */}
+                    <div className="relative h-48 mb-6 rounded-xl overflow-hidden">
+                      <img
+                        src={service.image}
+                        alt={`${service.title} - Professionelle Reinigungsdienstleistung`}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+                      <div className="absolute bottom-4 left-4">
+                        <div className="w-12 h-12 rounded-lg bg-[#5aec8b] flex items-center justify-center">
+                          <Icon className="w-6 h-6 text-white" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="px-2">
+                      <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-slate-100 group-hover:text-[#5aec8b] transition-colors">
+                        {service.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-slate-400 mb-6 leading-relaxed">
+                        {service.description}
+                      </p>
+                      <ul className="space-y-2">
+                        {service.features.map((feature, i) => (
+                          <li
+                            key={i}
+                            className="flex items-center text-sm text-gray-700 dark:text-slate-300"
+                          >
+                            <CheckCircle className="w-5 h-5 text-[#5aec8b] mr-3 flex-shrink-0" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section
+          id="about"
+          className="relative py-32 bg-white dark:bg-slate-950"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div
+                id="about-content"
+                data-animate
+                className={`space-y-6 transition-all duration-1000 ${
+                  isVisible["about-content"]
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-10"
+                }`}
+              >
+                <h2 className="text-4xl sm:text-5xl font-bold">
+                  <span className="bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
+                    Warum Dank Reinigung?
+                  </span>
+                </h2>
+
+                <div className="space-y-4 text-lg text-gray-700 dark:text-slate-300 leading-relaxed">
+                  <p>
+                    Mit mehr als 10 Jahren Erfahrung in der Reinigungsbranche
+                    zeichnet sich unser engagiertes Team durch eine Vielzahl von
+                    Dienstleistungen aus, um Ihren Bedürfnissen gerecht zu
+                    werden.
+                  </p>
+
+                  <p>
+                    Von der makellosen Fensterreinigung bis hin zur sorgfältigen
+                    Treppenhauspflege sorgen wir dafür, dass jeder Winkel Ihrer
+                    Räumlichkeiten in perfektem Glanz erstrahlt. Unsere
+                    Kompetenz erstreckt sich auch auf eine umfassende
+                    Hausreinigung, bei der wir Schmutz und Dreck beseitigen, um
+                    die wahre Schönheit Ihres Wohnumfelds zum Vorschein zu
+                    bringen. Darüber hinaus reinigen wir auch Sonnenkollektoren,
+                    um deren Effizienz und Langlebigkeit zu verbessern.
+                  </p>
+
+                  <p>
+                    Unsere Reinigungsdienste sind umweltfreundlich, effizient
+                    und preiswert. Wir verwenden umweltschonende Methoden, die
+                    die Natur schützen und gleichzeitig beste
+                    Reinigungsergebnisse liefern. Unsere erfahrenen Mitarbeiter
+                    arbeiten schnell und gründlich, sodass Ihre Räumlichkeiten
+                    rasch wieder nutzbar sind. Dabei bieten wir Ihnen ein
+                    hervorragendes Preis-Leistungs-Verhältnis
+                  </p>
+
+                  <p className="text-[#5aec8b] font-semibold">
+                    Vertrauen Sie unseren erfahrenen Fachleuten, die in allen
+                    Bereichen der Reinigung hervorragende Arbeit leisten.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => scrollToSection("contact")}
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-[#5aec8b] hover:bg-[#4dd67d] text-white rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-[#5aec8b]/50 transition-all duration-300 hover:scale-105 mt-6"
+                >
+                  Jetzt kontaktieren
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div
+                id="about-features"
+                data-animate
+                className={`space-y-6 transition-all duration-1000 ${
+                  isVisible["about-features"]
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-10"
+                }`}
+              >
+                <div className="rounded-2xl overflow-hidden mb-8 relative h-96">
+                  {aboutImages.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Dank Reinigung Team und Arbeit - Bild ${index + 1}`}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                        index === currentImageIndex
+                          ? "opacity-100"
+                          : "opacity-0"
+                      }`}
+                    />
+                  ))}
+
+                  {/* Navigation dots */}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                    {aboutImages.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentImageIndex(index)}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          index === currentImageIndex
+                            ? "bg-[#5aec8b] w-6"
+                            : "bg-white/50 hover:bg-white/80"
+                        }`}
+                        aria-label={`Go to image ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-6">
+                  {[
+                    {
+                      icon: Star,
+                      title: "Qualität",
+                      desc: "Höchste Standards",
+                    },
+                    {
+                      icon: CheckCircle,
+                      title: "Zuverlässig",
+                      desc: "Immer pünktlich",
+                    },
+                    { icon: Sparkles, title: "Erfahren", desc: "10+ Jahre" },
+                    {
+                      icon: Home,
+                      title: "Flexibel",
+                      desc: "Nach Ihren Wünschen",
+                    },
+                  ].map((item, index) => {
+                    const Icon = item.icon;
+                    return (
+                      <div
+                        key={index}
+                        className="bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200 dark:border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
+                      >
+                        <Icon className="w-10 h-10 text-[#5aec8b] mb-4" />
+                        <h4 className="text-lg font-bold text-gray-900 dark:text-slate-100 mb-2">
+                          {item.title}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-slate-400">
+                          {item.desc}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Locations Section */}
+        <section
+          id="locations"
+          className="relative py-32 bg-gradient-to-b from-gray-100 to-gray-50 dark:from-slate-900 dark:to-slate-950"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              id="locations-title"
+              data-animate
+              className={`text-center mb-16 transition-all duration-1000 ${
+                isVisible["locations-title"]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+                <span className="bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
+                  Unsere Standorte
+                </span>
+              </h2>
+              <p className="text-xl text-gray-600 dark:text-slate-400">
+                Wir sind in folgenden Regionen für Sie da
+              </p>
+            </div>
+
+            <div
+              id="locations-grid"
+              data-animate
+              className={`grid grid-cols-2 lg:grid-cols-5 gap-4 transition-all duration-1000 ${
+                isVisible["locations-grid"]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              {locations.map((location, index) => (
                 <div
                   key={index}
-                  className="text-center animate-[fadeInUp_1s_ease-out]"
-                  style={{
-                    animationDelay: `${0.2 + index * 0.1}s`,
-                    animationFillMode: "both",
-                  }}
+                  className="bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 lg:p-6 border border-gray-200 dark:border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20 hover:scale-105 flex flex-col items-center justify-center text-center aspect-square"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="text-4xl font-bold bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-white/80 mt-2">{stat.label}</div>
+                  <MapPin className="w-8 h-8 text-[#5aec8b] mb-2 lg:mb-4" />
+                  <h4 className="text-sm lg:text-lg font-semibold text-gray-900 dark:text-slate-100">
+                    {location}
+                  </h4>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Services Section */}
-      <section
-        id="services"
-        className="relative py-32 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-slate-950 dark:to-slate-900"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            id="services-title"
-            data-animate
-            className={`text-center mb-20 transition-all duration-1000 ${
-              isVisible["services-title"]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
-                Unsere Dienstleistungen
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Qualität und Schnelligkeit garantiert - mehr als 7 Jahre Erfahrung
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => {
-              const Icon = service.icon;
-              return (
-                <div
-                  key={index}
-                  id={`service-${index}`}
-                  data-animate
-                  className={`group relative bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-xl hover:shadow-cyan-500/20 hover:scale-[1.02] ${
-                    isVisible[`service-${index}`]
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-10"
-                  }`}
-                  style={{ transitionDelay: `${index * 0.1}s` }}
-                >
-                  {/* Service Image */}
-                  <div className="relative h-48 mb-6 rounded-xl overflow-hidden">
-                    <img
-                      src={service.image}
-                      alt={`${service.title} - Professionelle Reinigungsdienstleistung`}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4">
-                      <div className="w-12 h-12 rounded-lg bg-[#5aec8b] flex items-center justify-center">
-                        <Icon className="w-6 h-6 text-white" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="px-2">
-                    <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-slate-100 group-hover:text-[#5aec8b] transition-colors">
-                      {service.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-slate-400 mb-6 leading-relaxed">
-                      {service.description}
-                    </p>
-                    <ul className="space-y-2">
-                      {service.features.map((feature, i) => (
-                        <li
-                          key={i}
-                          className="flex items-center text-sm text-gray-700 dark:text-slate-300"
-                        >
-                          <CheckCircle className="w-5 h-5 text-[#5aec8b] mr-3 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="relative py-32 bg-white dark:bg-slate-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        {/* Testimonials Section */}
+        <section className="relative py-32 bg-gradient-to-b from-gray-50 to-white dark:from-slate-900 dark:to-slate-950">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div
-              id="about-content"
+              id="testimonials-title"
               data-animate
-              className={`space-y-6 transition-all duration-1000 ${
-                isVisible["about-content"]
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 -translate-x-10"
+              className={`text-center mb-16 transition-all duration-1000 ${
+                isVisible["testimonials-title"]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
               }`}
             >
-              <h2 className="text-4xl sm:text-5xl font-bold">
+              <h2 className="text-4xl sm:text-5xl font-bold mb-6">
                 <span className="bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
-                  Warum Dank Reinigung?
+                  Was unsere Kunden sagen
                 </span>
               </h2>
-
-              <div className="space-y-4 text-lg text-gray-700 dark:text-slate-300 leading-relaxed">
-                <p>
-                  Mit mehr als 10 Jahren Erfahrung in der Reinigungsbranche
-                  zeichnet sich unser engagiertes Team durch eine Vielzahl von
-                  Dienstleistungen aus, um Ihren Bedürfnissen gerecht zu werden.
-                </p>
-
-                <p>
-                  Von der makellosen Fensterreinigung bis hin zur sorgfältigen
-                  Treppenhauspflege sorgen wir dafür, dass jeder Winkel Ihrer
-                  Räumlichkeiten in perfektem Glanz erstrahlt. Unsere Kompetenz
-                  erstreckt sich auch auf eine umfassende Hausreinigung, bei der
-                  wir Schmutz und Dreck beseitigen, um die wahre Schönheit Ihres
-                  Wohnumfelds zum Vorschein zu bringen. Darüber hinaus reinigen
-                  wir auch Sonnenkollektoren, um deren Effizienz und
-                  Langlebigkeit zu verbessern.
-                </p>
-
-                <p>
-                  Unsere Reinigungsdienste sind umweltfreundlich, effizient und
-                  preiswert. Wir verwenden umweltschonende Methoden, die die
-                  Natur schützen und gleichzeitig beste Reinigungsergebnisse
-                  liefern. Unsere erfahrenen Mitarbeiter arbeiten schnell und
-                  gründlich, sodass Ihre Räumlichkeiten rasch wieder nutzbar
-                  sind. Dabei bieten wir Ihnen ein hervorragendes
-                  Preis-Leistungs-Verhältnis
-                </p>
-
-                <p className="text-[#5aec8b] font-semibold">
-                  Vertrauen Sie unseren erfahrenen Fachleuten, die in allen
-                  Bereichen der Reinigung hervorragende Arbeit leisten.
-                </p>
-              </div>
-
-              <button
-                onClick={() => scrollToSection("contact")}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-[#5aec8b] hover:bg-[#4dd67d] text-white rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-[#5aec8b]/50 transition-all duration-300 hover:scale-105 mt-6"
-              >
-                Jetzt kontaktieren
-                <ArrowRight className="w-5 h-5" />
-              </button>
+              <p className="text-xl text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
+                Überzeugen Sie sich von der Qualität unserer Arbeit durch die
+                Erfahrungen unserer zufriedenen Kunden
+              </p>
             </div>
 
-            <div
-              id="about-features"
-              data-animate
-              className={`space-y-6 transition-all duration-1000 ${
-                isVisible["about-features"]
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 translate-x-10"
-              }`}
-            >
-              <div className="rounded-2xl overflow-hidden mb-8 relative h-96">
-                {aboutImages.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`Dank Reinigung Team und Arbeit - Bild ${index + 1}`}
-                    loading={index === 0 ? "eager" : "lazy"}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-                      index === currentImageIndex ? "opacity-100" : "opacity-0"
-                    }`}
-                  />
-                ))}
-
-                {/* Navigation dots */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                  {aboutImages.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        index === currentImageIndex
-                          ? "bg-[#5aec8b] w-6"
-                          : "bg-white/50 hover:bg-white/80"
-                      }`}
-                      aria-label={`Go to image ${index + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-6">
-                {[
-                  { icon: Star, title: "Qualität", desc: "Höchste Standards" },
-                  {
-                    icon: CheckCircle,
-                    title: "Zuverlässig",
-                    desc: "Immer pünktlich",
-                  },
-                  { icon: Sparkles, title: "Erfahren", desc: "7+ Jahre" },
-                  {
-                    icon: Home,
-                    title: "Flexibel",
-                    desc: "Nach Ihren Wünschen",
-                  },
-                ].map((item, index) => {
-                  const Icon = item.icon;
-                  return (
+            {/* Carousel Container */}
+            <div className="relative overflow-hidden carousel-container">
+              <div
+                className="flex gap-8 carousel-track"
+                style={{
+                  animation: "scroll 40s linear infinite",
+                }}
+              >
+                {/* Render testimonials multiple times for seamless infinite loop */}
+                {[...Array(6)]
+                  .flatMap(() => testimonials)
+                  .map((testimonial, index) => (
                     <div
                       key={index}
-                      className="bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200 dark:border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
+                      className="flex-shrink-0 w-[350px] bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-[#5aec8b]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[#5aec8b]/10"
                     >
-                      <Icon className="w-10 h-10 text-[#5aec8b] mb-4" />
-                      <h4 className="text-lg font-bold text-gray-900 dark:text-slate-100 mb-2">
-                        {item.title}
-                      </h4>
-                      <p className="text-sm text-gray-600 dark:text-slate-400">
-                        {item.desc}
+                      <div className="flex items-center justify-between mb-6">
+                        <Quote className="w-10 h-10 text-[#5aec8b] opacity-50" />
+                        <div className="flex gap-1">
+                          {[...Array(testimonial.rating)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className="w-5 h-5 fill-[#5aec8b] text-[#5aec8b]"
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      <p className="text-gray-700 dark:text-slate-300 mb-6 leading-relaxed">
+                        "{testimonial.text}"
                       </p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Locations Section */}
-      <section
-        id="locations"
-        className="relative py-32 bg-gradient-to-b from-gray-100 to-gray-50 dark:from-slate-900 dark:to-slate-950"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            id="locations-title"
-            data-animate
-            className={`text-center mb-16 transition-all duration-1000 ${
-              isVisible["locations-title"]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
-                Unsere Standorte
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-slate-400">
-              Wir sind in folgenden Regionen für Sie da
-            </p>
-          </div>
-
-          <div
-            id="locations-grid"
-            data-animate
-            className={`grid grid-cols-2 lg:grid-cols-5 gap-4 transition-all duration-1000 ${
-              isVisible["locations-grid"]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            {locations.map((location, index) => (
-              <div
-                key={index}
-                className="bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 lg:p-6 border border-gray-200 dark:border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20 hover:scale-105 flex flex-col items-center justify-center text-center aspect-square"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <MapPin className="w-8 h-8 text-[#5aec8b] mb-2 lg:mb-4" />
-                <h4 className="text-sm lg:text-lg font-semibold text-gray-900 dark:text-slate-100">
-                  {location}
-                </h4>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="relative py-32 bg-gradient-to-b from-gray-50 to-white dark:from-slate-900 dark:to-slate-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            id="testimonials-title"
-            data-animate
-            className={`text-center mb-16 transition-all duration-1000 ${
-              isVisible["testimonials-title"]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
-                Was unsere Kunden sagen
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Überzeugen Sie sich von der Qualität unserer Arbeit durch die
-              Erfahrungen unserer zufriedenen Kunden
-            </p>
-          </div>
-
-          {/* Carousel Container */}
-          <div className="relative overflow-hidden carousel-container">
-            <div
-              className="flex gap-8 carousel-track"
-              style={{
-                animation: "scroll 40s linear infinite",
-              }}
-            >
-              {/* Render testimonials multiple times for seamless infinite loop */}
-              {[...Array(6)]
-                .flatMap(() => testimonials)
-                .map((testimonial, index) => (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 w-[350px] bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-[#5aec8b]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[#5aec8b]/10"
-                  >
-                    <div className="flex items-center justify-between mb-6">
-                      <Quote className="w-10 h-10 text-[#5aec8b] opacity-50" />
-                      <div className="flex gap-1">
-                        {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className="w-5 h-5 fill-[#5aec8b] text-[#5aec8b]"
-                          />
-                        ))}
+                      <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
+                        <p className="font-semibold text-gray-900 dark:text-slate-100">
+                          {testimonial.name}
+                        </p>
+                        <p className="text-sm text-gray-600 dark:text-slate-400">
+                          {testimonial.role}
+                        </p>
                       </div>
                     </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
-                    <p className="text-gray-700 dark:text-slate-300 mb-6 leading-relaxed">
-                      "{testimonial.text}"
-                    </p>
+        {/* Contact Section */}
+        <section
+          id="contact"
+          className="relative py-32 bg-white dark:bg-slate-950"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              id="contact-title"
+              data-animate
+              className={`text-center mb-16 transition-all duration-1000 ${
+                isVisible["contact-title"]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+                <span className="bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
+                  Kontaktieren Sie uns
+                </span>
+              </h2>
+              <p className="text-xl text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
+                Lassen Sie uns gemeinsam den Weg zu einer schönen und
+                dauerhaften Zusammenarbeit beschreiten
+              </p>
+            </div>
 
-                    <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
-                      <p className="font-semibold text-gray-900 dark:text-slate-100">
-                        {testimonial.name}
-                      </p>
-                      <p className="text-sm text-gray-600 dark:text-slate-400">
-                        {testimonial.role}
-                      </p>
-                    </div>
+            <div
+              id="contact-info"
+              data-animate
+              className={`grid md:grid-cols-3 gap-8 max-w-4xl mx-auto transition-all duration-1000 ${
+                isVisible["contact-info"]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              <a
+                href="tel:015111072738"
+                className="group bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/20 hover:scale-105 text-center"
+              >
+                <div className="relative inline-block mb-6">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 mx-auto">
+                    <Phone className="w-8 h-8 text-white" />
                   </div>
-                ))}
+                  <div className="absolute inset-0 rounded-full bg-cyan-500 blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
+                  Telefon
+                </h3>
+                <p className="text-[#5aec8b] font-medium">0151 110 727 38</p>
+              </a>
+
+              <a
+                href="mailto:info@dank-reinigung.de"
+                className="group bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/20 hover:scale-105 text-center"
+              >
+                <div className="relative inline-block mb-6">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 mx-auto">
+                    <Mail className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="absolute inset-0 rounded-full bg-cyan-500 blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
+                  E-Mail
+                </h3>
+                <p className="text-[#5aec8b] font-medium break-all">
+                  info@dank-reinigung.de
+                </p>
+              </a>
+
+              <div className="bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 text-center">
+                <div className="relative inline-block mb-6">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center mx-auto">
+                    <MapPin className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="absolute inset-0 rounded-full bg-cyan-500 blur-xl opacity-30"></div>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
+                  Adresse
+                </h3>
+                <p className="text-[#5aec8b] font-medium text-sm">
+                  Joachimsthaler Str. 5B
+                  <br />
+                  16230 Chorin OT Golzow
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section
-        id="contact"
-        className="relative py-32 bg-white dark:bg-slate-950"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            id="contact-title"
-            data-animate
-            className={`text-center mb-16 transition-all duration-1000 ${
-              isVisible["contact-title"]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-[#5aec8b] to-[#4dd67d] bg-clip-text text-transparent">
-                Kontaktieren Sie uns
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Lassen Sie uns gemeinsam den Weg zu einer schönen und dauerhaften
-              Zusammenarbeit beschreiten
-            </p>
-          </div>
-
-          <div
-            id="contact-info"
-            data-animate
-            className={`grid md:grid-cols-3 gap-8 max-w-4xl mx-auto transition-all duration-1000 ${
-              isVisible["contact-info"]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <a
-              href="tel:015111072738"
-              className="group bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/20 hover:scale-105 text-center"
-            >
-              <div className="relative inline-block mb-6">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 mx-auto">
-                  <Phone className="w-8 h-8 text-white" />
-                </div>
-                <div className="absolute inset-0 rounded-full bg-cyan-500 blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
-                Telefon
-              </h3>
-              <p className="text-[#5aec8b] font-medium">0151 110 727 38</p>
-            </a>
-
-            <a
-              href="mailto:info@dank-reinigung.de"
-              className="group bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/20 hover:scale-105 text-center"
-            >
-              <div className="relative inline-block mb-6">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 mx-auto">
-                  <Mail className="w-8 h-8 text-white" />
-                </div>
-                <div className="absolute inset-0 rounded-full bg-cyan-500 blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
-                E-Mail
-              </h3>
-              <p className="text-[#5aec8b] font-medium break-all">
-                info@dank-reinigung.de
-              </p>
-            </a>
-
-            <div className="bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 text-center">
-              <div className="relative inline-block mb-6">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center mx-auto">
-                  <MapPin className="w-8 h-8 text-white" />
-                </div>
-                <div className="absolute inset-0 rounded-full bg-cyan-500 blur-xl opacity-30"></div>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
-                Adresse
-              </h3>
-              <p className="text-[#5aec8b] font-medium text-sm">
-                Joachimsthaler Str. 5B
-                <br />
-                16230 Chorin OT Golzow
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
       </main>
 
       {/* Footer */}
-      <footer className="relative py-12 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800" role="contentinfo">
+      <footer
+        className="relative py-12 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800"
+        role="contentinfo"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* Logo Column */}
