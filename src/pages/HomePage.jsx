@@ -332,19 +332,38 @@ export default function HomePage() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white/90 backdrop-blur-lg border-t border-gray-200">
+          <div className="md:hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-t border-gray-200 dark:border-slate-700">
             <div className="px-4 py-6 space-y-4">
               {["Home", "Services", "About", "Locations", "Contact"].map(
                 (item) => (
                   <button
                     key={item}
                     onClick={() => scrollToSection(item.toLowerCase())}
-                    className="block w-full text-left text-lg font-medium text-gray-700 hover:text-[#5aec8b] transition-colors"
+                    className="block w-full text-left text-lg font-medium text-gray-700 dark:text-slate-300 hover:text-[#5aec8b] transition-colors"
                   >
                     {item}
                   </button>
                 ),
               )}
+
+              {/* Theme Toggle in Mobile Menu */}
+              <button
+                onClick={toggleTheme}
+                className="flex items-center gap-3 w-full text-left text-lg font-medium text-gray-700 dark:text-slate-300 hover:text-[#5aec8b] transition-colors pt-2 border-t border-gray-200 dark:border-slate-700"
+                aria-label="Toggle dark mode"
+              >
+                {theme === "light" ? (
+                  <>
+                    <Moon className="w-5 h-5" />
+                    <span>Dark Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Sun className="w-5 h-5" />
+                    <span>Light Mode</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
         )}
