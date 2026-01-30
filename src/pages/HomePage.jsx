@@ -281,7 +281,10 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 blur-xl bg-[#5aec8b]/30 animate-pulse"></div>
                   {/* Floating bubbles around logo */}
-                  <div className="absolute -inset-8 pointer-events-none" aria-hidden="true">
+                  <div
+                    className="absolute -inset-8 pointer-events-none"
+                    aria-hidden="true"
+                  >
                     <div className="logo-bubble logo-bubble-1"></div>
                     <div className="logo-bubble logo-bubble-2"></div>
                     <div className="logo-bubble logo-bubble-3"></div>
@@ -329,17 +332,33 @@ export default function HomePage() {
                 </button>
               </div>
 
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden text-gray-700 hover:text-[#5aec8b] transition-colors"
-              >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </button>
+              {/* Mobile Theme Toggle and Menu Button */}
+              <div className="md:hidden flex items-center gap-3">
+                {/* Mobile Theme Toggle */}
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-lg hover:bg-gray-200/50 transition-colors"
+                  aria-label="Toggle theme"
+                >
+                  {theme === "light" ? (
+                    <Moon className="w-5 h-5 text-gray-700" />
+                  ) : (
+                    <Sun className="w-5 h-5 text-[#5aec8b]" />
+                  )}
+                </button>
+
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="text-gray-700 hover:text-[#5aec8b] transition-colors"
+                >
+                  {mobileMenuOpen ? (
+                    <X className="w-6 h-6" />
+                  ) : (
+                    <Menu className="w-6 h-6" />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -358,25 +377,6 @@ export default function HomePage() {
                     </button>
                   ),
                 )}
-
-                {/* Theme Toggle in Mobile Menu */}
-                <button
-                  onClick={toggleTheme}
-                  className="flex items-center gap-3 w-full text-left text-lg font-medium text-gray-700 dark:text-slate-300 hover:text-[#5aec8b] transition-colors pt-2 border-t border-gray-200 dark:border-slate-700"
-                  aria-label="Toggle dark mode"
-                >
-                  {theme === "light" ? (
-                    <>
-                      <Moon className="w-5 h-5" />
-                      <span>Dark Mode</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sun className="w-5 h-5" />
-                      <span>Light Mode</span>
-                    </>
-                  )}
-                </button>
               </div>
             </div>
           )}
@@ -495,7 +495,7 @@ export default function HomePage() {
                 </span>
               </h2>
               <p className="text-xl text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
-                Qualität und Schnelligkeit garantiert - mehr als 7 Jahre
+                Qualität und Schnelligkeit garantiert - mehr als 10 Jahre
                 Erfahrung
               </p>
             </div>
@@ -931,7 +931,10 @@ export default function HomePage() {
                   className="w-24 h-24 md:w-32 md:h-32 object-contain relative z-10"
                 />
                 {/* Floating bubbles around logo */}
-                <div className="absolute -inset-8 pointer-events-none" aria-hidden="true">
+                <div
+                  className="absolute -inset-8 pointer-events-none"
+                  aria-hidden="true"
+                >
                   <div className="logo-bubble logo-bubble-1"></div>
                   <div className="logo-bubble logo-bubble-2"></div>
                   <div className="logo-bubble logo-bubble-3"></div>
