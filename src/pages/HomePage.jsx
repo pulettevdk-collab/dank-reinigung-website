@@ -942,9 +942,9 @@ export default function HomePage() {
                 )}
                 <Link
                   to="/impressum"
-                  className="text-gray-600 hover:text-[#5aec8b] transition-colors text-center"
+                  className="text-gray-600 dark:text-slate-400 hover:text-[#5aec8b] transition-colors text-center"
                 >
-                  Impressum
+                  Impressum und Datenschutz
                 </Link>
               </nav>
             </div>

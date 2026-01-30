@@ -20,7 +20,7 @@ export default function Impressum() {
       {/* Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-slate-100 mb-8">
-          Impressum
+          Impressum und Datenschutz
         </h1>
 
         <div className="prose prose-lg dark:prose-invert max-w-none space-y-8">
