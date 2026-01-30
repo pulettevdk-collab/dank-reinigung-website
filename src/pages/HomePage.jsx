@@ -20,6 +20,101 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
+// Static data moved outside component to prevent recreation on every render
+const aboutImages = [
+  "/images/about/about-1.jpeg",
+  "/images/about/about-2.jpeg",
+  "/images/about/about-3.jpeg",
+  "/images/about/about-4.jpeg",
+];
+
+const services = [
+  {
+    icon: Home,
+    title: "Hausreinigung",
+    description:
+      "Nach einem anstrengenden Arbeitstag nach Hause zu kommen und ein blitzsauberes Haus vorzufinden, ist eines der besten Gefühle.",
+    features: [
+      "Wöchentliche Reinigung",
+      "Flexible Zeiten",
+      "Eigene Produkte möglich",
+    ],
+    image: "/images/services/hausreinigung.webp",
+  },
+  {
+    icon: Layers,
+    title: "Treppenhausreinigung",
+    description:
+      "Der erste Eindruck zählt! Das Treppenhaus muss einen guten ersten Eindruck machen, und wir sorgen dafür, dass es das tut.",
+    features: ["Regelmäßige Reinigung", "Glasflächen", "Handläufe & Details"],
+    image: "/images/services/treppenhausreinigung.webp",
+  },
+  {
+    icon: Building2,
+    title: "Büroreinigung",
+    description:
+      "Das Büro soll sich wie ein Zuhause anfühlen! Je entspannter und gelassener Sie sind, desto produktiver sind Sie.",
+    features: ["Nach Büroschluss", "Individuelle Pläne", "Sanitäranlagen"],
+    image: "/images/services/bueroreinigung.webp",
+  },
+  {
+    icon: Wind,
+    title: "Fensterreinigung",
+    description:
+      "Kristallklare Fenster für mehr Licht und bessere Aussicht. Professionelle Reinigung für streifenfreien Glanz.",
+    features: ["Innen & Außen", "Rahmen inklusive", "Professionelle Technik"],
+    image: "/images/services/fensterreinigung.jpeg",
+  },
+  {
+    icon: Zap,
+    title: "Solarreinigung",
+    description:
+      "Professionelle Wartung von Solarmodulen für optimale Effizienz und maximale Energieausbeute.",
+    features: [
+      "Schonende Reinigung",
+      "Effizienzsteigerung",
+      "Regelmäßige Wartung",
+    ],
+    image: "/images/services/solarreinigung.jpg",
+  },
+];
+
+const stats = [
+  { number: "10+", label: "Jahre Erfahrung" },
+  { number: "100%", label: "Kundenzufriedenheit" },
+  { number: "5", label: "Standorte" },
+];
+
+const locations = [
+  "Berlin",
+  "Eberswalde",
+  "Bernau",
+  "Bad Freinwalde",
+  "Angermünde",
+  "Umgebung",
+];
+
+const testimonials = [
+  {
+    name: "Sarah Weber",
+    role: "Privatkundin, Berlin",
+    rating: 5,
+    text: "Absolut zuverlässig und gründlich! Das Team von Dank Reinigung hat unsere Wohnung makellos sauber gemacht. Besonders beeindruckt hat mich die Aufmerksamkeit für Details.",
+  },
+  {
+    name: "Michael Hoffmann",
+    role: "Geschäftsführer, Eberswalde",
+    rating: 5,
+    text: "Wir nutzen die Büroreinigung seit über einem Jahr. Pünktlich, professionell und zu einem fairen Preis. Unsere Mitarbeiter schätzen die saubere Arbeitsumgebung sehr.",
+  },
+  {
+    name: "Anna Schmidt",
+    role: "Hausbesitzerin, Bernau",
+    rating: 5,
+    text: "Die Treppenhausreinigung wird regelmäßig und mit größter Sorgfalt durchgeführt. Unser Treppenhaus sieht immer einladend und gepflegt aus. Sehr empfehlenswert!",
+  },
+];
+
 export default function HomePage() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -35,22 +130,14 @@ export default function HomePage() {
     localStorage.setItem("theme", newTheme);
   };
 
-  // About section images for slideshow
-  const aboutImages = [
-    "/images/about/about-1.jpeg",
-    "/images/about/about-2.jpeg",
-    "/images/about/about-3.jpeg",
-    "/images/about/about-4.jpeg",
-  ];
-
   // Auto-advance about images every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % aboutImages.length);
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % 4); // 4 images total
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [aboutImages.length]);
+  }, []); // Empty dependency - images array never changes
 
   useEffect(() => {
     const handleScroll = () => {
@@ -135,100 +222,24 @@ export default function HomePage() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  const services = [
-    {
-      icon: Home,
-      title: "Hausreinigung",
-      description:
-        "Nach einem anstrengenden Arbeitstag nach Hause zu kommen und ein blitzsauberes Haus vorzufinden, ist eines der besten Gefühle.",
-      features: [
-        "Wöchentliche Reinigung",
-        "Flexible Zeiten",
-        "Eigene Produkte möglich",
-      ],
-      image: "/images/services/hausreinigung.webp",
-    },
-    {
-      icon: Layers,
-      title: "Treppenhausreinigung",
-      description:
-        "Der erste Eindruck zählt! Das Treppenhaus muss einen guten ersten Eindruck machen, und wir sorgen dafür, dass es das tut.",
-      features: ["Regelmäßige Reinigung", "Glasflächen", "Handläufe & Details"],
-      image: "/images/services/treppenhausreinigung.webp",
-    },
-    {
-      icon: Building2,
-      title: "Büroreinigung",
-      description:
-        "Das Büro soll sich wie ein Zuhause anfühlen! Je entspannter und gelassener Sie sind, desto produktiver sind Sie.",
-      features: ["Nach Büroschluss", "Individuelle Pläne", "Sanitäranlagen"],
-      image: "/images/services/bueroreinigung.webp",
-    },
-    {
-      icon: Wind,
-      title: "Fensterreinigung",
-      description:
-        "Kristallklare Fenster für mehr Licht und bessere Aussicht. Professionelle Reinigung für streifenfreien Glanz.",
-      features: ["Innen & Außen", "Rahmen inklusive", "Professionelle Technik"],
-      image: "/images/services/fensterreinigung.jpeg",
-    },
-    {
-      icon: Zap,
-      title: "Solarreinigung",
-      description:
-        "Professionelle Wartung von Solarmodulen für optimale Effizienz und maximale Energieausbeute.",
-      features: [
-        "Schonende Reinigung",
-        "Effizienzsteigerung",
-        "Regelmäßige Wartung",
-      ],
-      image: "/images/services/solarreinigung.jpg",
-    },
-  ];
-
-  const stats = [
-    { number: "10+", label: "Jahre Erfahrung" },
-    { number: "100%", label: "Kundenzufriedenheit" },
-    { number: "5", label: "Standorte" },
-  ];
-
-  const locations = [
-    "Berlin",
-    "Eberswalde",
-    "Bernau",
-    "Bad Freinwalde",
-    "Angermünde",
-    "Umgebung",
-  ];
-
-  const testimonials = [
-    {
-      name: "Sarah Weber",
-      role: "Privatkundin, Berlin",
-      rating: 5,
-      text: "Absolut zuverlässig und gründlich! Das Team von Dank Reinigung hat unsere Wohnung makellos sauber gemacht. Besonders beeindruckt hat mich die Aufmerksamkeit für Details.",
-    },
-    {
-      name: "Michael Hoffmann",
-      role: "Geschäftsführer, Eberswalde",
-      rating: 5,
-      text: "Wir nutzen die Büroreinigung seit über einem Jahr. Pünktlich, professionell und zu einem fairen Preis. Unsere Mitarbeiter schätzen die saubere Arbeitsumgebung sehr.",
-    },
-    {
-      name: "Anna Schmidt",
-      role: "Hausbesitzerin, Bernau",
-      rating: 5,
-      text: "Die Treppenhausreinigung wird regelmäßig und mit größter Sorgfalt durchgeführt. Unser Treppenhaus sieht immer einladend und gepflegt aus. Sehr empfehlenswert!",
-    },
-  ];
-
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
       setMobileMenuOpen(false);
+      // Update URL hash for deep linking
+      window.history.pushState(null, null, `#${sectionId}`);
     }
   };
+
+  // Handle initial hash on page load for deep linking
+  useEffect(() => {
+    const hash = window.location.hash.slice(1); // Remove the # symbol
+    if (hash) {
+      // Delay to ensure page is fully loaded
+      setTimeout(() => scrollToSection(hash), 100);
+    }
+  }, []);
 
   return (
     <div
