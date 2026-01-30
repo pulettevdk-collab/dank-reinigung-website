@@ -92,8 +92,15 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, []);
 
-  // Mouse bubble trail effect
+  // Mouse bubble trail effect (respects prefers-reduced-motion)
   useEffect(() => {
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      return; // Don't add bubble effect if user prefers reduced motion
+    }
+
     let throttleTimer = null;
 
     const handleMouseMove = (e) => {
@@ -101,7 +108,7 @@ export default function HomePage() {
 
       throttleTimer = setTimeout(() => {
         throttleTimer = null;
-      }, 50); // Create bubble every 50ms
+      }, 80); // Create bubble every 80ms (optimized from 50ms)
 
       const bubble = {
         id: Date.now() + Math.random(),
@@ -110,7 +117,11 @@ export default function HomePage() {
         size: Math.random() * 20 + 15, // Random size between 15-35px
       };
 
-      setSparkles((prev) => [...prev, bubble]);
+      setSparkles((prev) => {
+        // Limit to 15 bubbles max for performance
+        const newSparkles = [...prev, bubble];
+        return newSparkles.length > 15 ? newSparkles.slice(1) : newSparkles;
+      });
 
       // Remove bubble after animation
       setTimeout(() => {
@@ -220,6 +231,14 @@ export default function HomePage() {
     <div
       className={`min-h-screen font-sans overflow-x-hidden ${theme === "dark" ? "dark bg-slate-950 text-slate-100" : "bg-white text-gray-900"}`}
     >
+      {/* Skip to main content - Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-[#5aec8b] focus:text-white focus:rounded-lg focus:shadow-lg"
+      >
+        Skip to main content
+      </a>
+
       {/* Soap Bubble Trail */}
       {sparkles.map((bubble) => (
         <div
@@ -231,11 +250,15 @@ export default function HomePage() {
             width: bubble.size,
             height: bubble.size,
           }}
+          aria-hidden="true"
         />
       ))}
 
       {/* Navigation */}
+      <header>
       <nav
+        role="navigation"
+        aria-label="Main navigation"
         className={`fixed w-full z-50 transition-all duration-500 ${
           scrolled
             ? "bg-white/70 backdrop-blur-md shadow-lg"
@@ -326,10 +349,14 @@ export default function HomePage() {
           </div>
         )}
       </nav>
+      </header>
 
+      {/* Main Content */}
+      <main id="main-content">
       {/* Hero Section */}
       <section
         id="home"
+        aria-label="Hero section"
         className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
       >
         {/* Background Video */}
@@ -457,7 +484,8 @@ export default function HomePage() {
                   <div className="relative h-48 mb-6 rounded-xl overflow-hidden">
                     <img
                       src={service.image}
-                      alt={service.title}
+                      alt={`${service.title} - Professionelle Reinigungsdienstleistung`}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
@@ -570,7 +598,8 @@ export default function HomePage() {
                   <img
                     key={index}
                     src={image}
-                    alt={`Dank Reinigung ${index + 1}`}
+                    alt={`Dank Reinigung Team und Arbeit - Bild ${index + 1}`}
+                    loading={index === 0 ? "eager" : "lazy"}
                     className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
                       index === currentImageIndex ? "opacity-100" : "opacity-0"
                     }`}
@@ -839,9 +868,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </main>
 
       {/* Footer */}
-      <footer className="relative py-12 bg-white border-t border-gray-200">
+      <footer className="relative py-12 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800" role="contentinfo">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* Logo Column */}
