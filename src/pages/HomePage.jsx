@@ -855,11 +855,11 @@ export default function HomePage() {
               <div
                 className="flex gap-8 carousel-track"
                 style={{
-                  animation: "scroll 40s linear infinite",
+                  animation: "scroll 60s linear infinite",
                 }}
               >
                 {/* Render testimonials multiple times for seamless infinite loop */}
-                {[...Array(6)]
+                {[...Array(12)]
                   .flatMap(() => testimonials)
                   .map((testimonial, index) => {
                     const { text, isTruncated } = truncateText(
@@ -870,7 +870,7 @@ export default function HomePage() {
                       <div
                         key={index}
                         onClick={() => setExpandedReview(testimonial)}
-                        className="flex-shrink-0 w-[350px] h-[320px] bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-[#5aec8b]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[#5aec8b]/10 cursor-pointer flex flex-col"
+                        className="flex-shrink-0 w-[350px] bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-[#5aec8b]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[#5aec8b]/10 cursor-pointer flex flex-col"
                       >
                         <div className="flex items-center justify-between mb-6">
                           <Quote className="w-10 h-10 text-[#5aec8b] opacity-50" />
@@ -884,7 +884,7 @@ export default function HomePage() {
                           </div>
                         </div>
 
-                        <div className="flex-grow mb-6">
+                        <div className="flex-grow min-h-[100px] mb-6">
                           <p className="text-gray-700 dark:text-slate-300 leading-relaxed">
                             "{text}
                             {isTruncated && (
