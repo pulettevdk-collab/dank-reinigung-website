@@ -11,13 +11,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Carousel scroll animation */
+/* Carousel scroll animation - moves exactly 3 testimonials (1 full set) */
 @keyframes scroll {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-350px * 3 - 2rem * 3));
+    transform: translateX(calc(-350px * 3 - 32px * 3));
   }
 }
 

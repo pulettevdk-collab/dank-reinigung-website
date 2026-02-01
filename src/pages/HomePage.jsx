@@ -96,25 +96,53 @@ const locations = [
 
 const testimonials = [
   {
-    name: "Maik Ritter",
-    role: "Privatkundin, Berlin",
+    name: "Liane Foersterling",
+    role: "Geschäftsführer, Eberswalde ",
     rating: 5,
-    text: "Die Dienstleistung der Firma D.A.N.K. Reinigung findet völlig unauffällig immer zu unserer vollsten Zufriedenheit statt. Auf Sonderwünsche wird kompetent und unkompliziert reagiert. Absprachen werden immer eingehalten.",
-    source: "manual"
+    text: "Wir nehmen in der Rechtanwaltskanlei Willy Foersterling und auch in der A&Z Steuer und Recht GmbH schon fast ein Jahr lang die Dienste der Firma D.A.N.K. Reinigung in Anspruch und sind absolut zufrieden mit ihrer Leistung. Sie sind schnell, dabei sehr gründlich und erfüllen Sonderwünsche freundlich und ebenso exzellent. Da sagen wir einfach DANKE.",
+    source: "manual",
   },
   {
     name: "Michael Wietzke",
-    role: "Geschäftsführer, Eberswalde",
+    role: "Privatkundin, Eberswalde",
     rating: 5,
-    text: "Wir nutzen die Büroreinigung seit über einem Jahr. Pünktlich, professionell und zu einem fairen Preis. Unsere Mitarbeiter schätzen die saubere Arbeitsumgebung sehr.",
-    source: "manual"
+    text: "Seit 2 Jahren haben wir die Dienste dieser Reinigungsfirma D.A.N.K. Reinigung GbR in Anspruch genommen und möchte meine Erfahrungen teilen. Die Qualität der Reinigung war durchweg ausgezeichnet. Alle Fenster wurden gründlich gereinigt, und ich war besonders beeindruckt von der Sorgfalt. Die Fenster glänzen, und es ist offensichtlich, dass das Reinigungsteam viel Wert auf Details legt. Ich habe auch bemerkt, dass umweltfreundliche Reinigungsmittel verwendet wurden, was ich sehr schätze. Die Zuverlässigkeit der Firma D.A.N.K. Reinigung GbR war ebenfalls bemerkenswert. Das Reinigungsteam kam pünktlich zu den vereinbarten Terminen und hielt sich an den Zeitplan. Ich erhielt im Vorfeld eine Bestätigung des Termins, was mir zusätzliche Sicherheit gab. Insgesamt bin ich sehr zufrieden mit den Dienstleistungen und kann sie ohne Vorbehalte weiterempfehlen.",
+    source: "manual",
   },
   {
-    name: "Anna Schmidt",
+    name: "Maik Ritter",
+    role: "Hausbesitzerin, Eberswalde",
+    rating: 5,
+    text: "Die Dienstleistung der Firma D.A.N.K. Reinigung findet völlig unauffällig immer zu unserer vollsten Zufriedenheit statt. Auf Sonderwünsche wird kompetent und unkompliziert reagiert. Absprachen werden immer eingehalten.",
+    source: "manual",
+  },
+  {
+    name: "Malerbetrieb Engelbrecht GmbH",
+    role: "Hausbesitzerin, Eberswalde",
+    rating: 5,
+    text: "Seit einem Jahr werden unsere Räume durch Firma D.A.N.K. gereinigt. Freundlich, gründlich, pünktlich - wir sind mit den Leistungen sehr zufrieden und können Sie uneingeschränkt weiter empfehlen.",
+    source: "manual",
+  },
+  {
+    name: "Nadine Ströbele",
     role: "Hausbesitzerin, Bernau",
     rating: 5,
-    text: "Die Treppenhausreinigung wird regelmäßig und mit größter Sorgfalt durchgeführt. Unser Treppenhaus sieht immer einladend und gepflegt aus. Sehr empfehlenswert!",
-    source: "manual"
+    text: "Wir sind sehr zufrieden! Unsere Büroräume werden schon seit einiger Zeit von D.A.N.K. gereinigt. Angenehme Zusammenarbeit.",
+    source: "manual",
+  },
+  {
+    name: "U. Je.",
+    role: "Hausbesitzerin, Eberswalde",
+    rating: 5,
+    text: "Die Terminvereinbarung war unkompliziert. Der Kollege kam pünktlich, war freundlich, arbeitete gründlich und hat bei kleinen Problemen sofort nachgefragt. Wir waren sehr zufrieden mit seiner Arbeit.",
+    source: "manual",
+  },
+  {
+    name: "Max Puhlmann",
+    role: "Hausbesitzerin, Eberswalde",
+    rating: 5,
+    text: "Sehr gute Qualität! Immer sehr nett und freundlich!",
+    source: "manual",
   },
 ];
 
@@ -132,7 +160,7 @@ export default function HomePage() {
     if (text.length <= maxLength) return { text, isTruncated: false };
     return {
       text: text.substring(0, maxLength).trim(),
-      isTruncated: true
+      isTruncated: true,
     };
   };
 
@@ -156,7 +184,14 @@ export default function HomePage() {
       setScrolled(window.scrollY > 50);
 
       // Update active section based on scroll position
-      const sections = ["home", "services", "about", "locations", "testimonials", "contact"];
+      const sections = [
+        "home",
+        "services",
+        "about",
+        "locations",
+        "testimonials",
+        "contact",
+      ];
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
@@ -329,25 +364,23 @@ export default function HomePage() {
                   { label: "About", section: "about" },
                   { label: "Locations", section: "locations" },
                   { label: "Bewertungen", section: "testimonials" },
-                  { label: "Contact", section: "contact" }
-                ].map(
-                  (item) => (
-                    <button
-                      key={item.section}
-                      onClick={() => scrollToSection(item.section)}
-                      className={`relative text-sm font-medium transition-colors duration-300 ${
-                        activeSection === item.section
-                          ? "text-[#5aec8b]"
-                          : "text-gray-700 hover:text-[#5aec8b]"
-                      }`}
-                    >
-                      {item.label}
-                      {activeSection === item.section && (
-                        <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#5aec8b] animate-[slideIn_0.3s_ease-out]"></span>
-                      )}
-                    </button>
-                  ),
-                )}
+                  { label: "Contact", section: "contact" },
+                ].map((item) => (
+                  <button
+                    key={item.section}
+                    onClick={() => scrollToSection(item.section)}
+                    className={`relative text-sm font-medium transition-colors duration-300 ${
+                      activeSection === item.section
+                        ? "text-[#5aec8b]"
+                        : "text-gray-700 hover:text-[#5aec8b]"
+                    }`}
+                  >
+                    {item.label}
+                    {activeSection === item.section && (
+                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#5aec8b] animate-[slideIn_0.3s_ease-out]"></span>
+                    )}
+                  </button>
+                ))}
 
                 {/* Theme Toggle Button */}
                 <button
@@ -403,21 +436,19 @@ export default function HomePage() {
                   { label: "About", section: "about" },
                   { label: "Locations", section: "locations" },
                   { label: "Bewertungen", section: "testimonials" },
-                  { label: "Contact", section: "contact" }
-                ].map(
-                  (item) => (
-                    <button
-                      key={item.section}
-                      onClick={() => {
-                        scrollToSection(item.section);
-                        setMobileMenuOpen(false);
-                      }}
-                      className="block w-full text-left text-lg font-medium text-gray-700 dark:text-slate-300 hover:text-[#5aec8b] transition-colors"
-                    >
-                      {item.label}
-                    </button>
-                  ),
-                )}
+                  { label: "Contact", section: "contact" },
+                ].map((item) => (
+                  <button
+                    key={item.section}
+                    onClick={() => {
+                      scrollToSection(item.section);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="block w-full text-left text-lg font-medium text-gray-700 dark:text-slate-300 hover:text-[#5aec8b] transition-colors"
+                  >
+                    {item.label}
+                  </button>
+                ))}
               </div>
             </div>
           )}
@@ -831,12 +862,15 @@ export default function HomePage() {
                 {[...Array(6)]
                   .flatMap(() => testimonials)
                   .map((testimonial, index) => {
-                    const { text, isTruncated } = truncateText(testimonial.text, 150);
+                    const { text, isTruncated } = truncateText(
+                      testimonial.text,
+                      150,
+                    );
                     return (
                       <div
                         key={index}
                         onClick={() => setExpandedReview(testimonial)}
-                        className="flex-shrink-0 w-[350px] bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-[#5aec8b]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[#5aec8b]/10 cursor-pointer"
+                        className="flex-shrink-0 w-[350px] h-[320px] bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-[#5aec8b]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[#5aec8b]/10 cursor-pointer flex flex-col"
                       >
                         <div className="flex items-center justify-between mb-6">
                           <Quote className="w-10 h-10 text-[#5aec8b] opacity-50" />
@@ -850,22 +884,29 @@ export default function HomePage() {
                           </div>
                         </div>
 
-                        <p className="text-gray-700 dark:text-slate-300 mb-6 leading-relaxed">
-                          "{text}
-                          {isTruncated && (
-                            <span className="text-[#5aec8b] font-medium ml-1">...Mehr</span>
-                          )}"
-                        </p>
+                        <div className="flex-grow mb-6">
+                          <p className="text-gray-700 dark:text-slate-300 leading-relaxed">
+                            "{text}
+                            {isTruncated && (
+                              <span className="text-[#5aec8b] font-medium ml-1">
+                                ...Mehr
+                              </span>
+                            )}
+                            "
+                          </p>
+                        </div>
 
                         {/* Google verification badge */}
-                        {testimonial.source === 'google' && (
+                        {testimonial.source === "google" && (
                           <div className="flex items-center gap-1.5 mb-3 text-sm text-green-600 dark:text-green-400">
                             <CheckCircle className="w-4 h-4" />
-                            <span className="font-medium">Verifizierte Google Bewertung</span>
+                            <span className="font-medium">
+                              Verifizierte Google Bewertung
+                            </span>
                           </div>
                         )}
 
-                        <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
+                        <div className="border-t border-gray-200 dark:border-slate-700 pt-4 mt-auto">
                           <p className="font-semibold text-gray-900 dark:text-slate-100">
                             {testimonial.name}
                           </p>
@@ -903,7 +944,10 @@ export default function HomePage() {
               {/* Rating */}
               <div className="flex gap-1 mb-4">
                 {[...Array(expandedReview.rating)].map((_, i) => (
-                  <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                  <Star
+                    key={i}
+                    className="w-6 h-6 fill-yellow-400 text-yellow-400"
+                  />
                 ))}
               </div>
 
@@ -913,10 +957,12 @@ export default function HomePage() {
               </p>
 
               {/* Google badge if applicable */}
-              {expandedReview.source === 'google' && (
+              {expandedReview.source === "google" && (
                 <div className="flex items-center gap-1.5 mb-6 text-sm text-green-600 dark:text-green-400">
                   <CheckCircle className="w-4 h-4" />
-                  <span className="font-medium">Verifizierte Google Bewertung</span>
+                  <span className="font-medium">
+                    Verifizierte Google Bewertung
+                  </span>
                 </div>
               )}
 
