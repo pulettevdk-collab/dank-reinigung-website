@@ -96,22 +96,25 @@ const locations = [
 
 const testimonials = [
   {
-    name: "Sarah Weberr",
+    name: "Maik Ritter",
     role: "Privatkundin, Berlin",
     rating: 5,
-    text: "Absolut zuverlässig und gründlich! Das Team von Dank Reinigung hat unsere Wohnung makellos sauber gemacht. Besonders beeindruckt hat mich die Aufmerksamkeit für Details.",
+    text: "Die Dienstleistung der Firma D.A.N.K. Reinigung findet völlig unauffällig immer zu unserer vollsten Zufriedenheit statt. Auf Sonderwünsche wird kompetent und unkompliziert reagiert. Absprachen werden immer eingehalten.",
+    source: "manual"
   },
   {
-    name: "Michael Hoffmann",
+    name: "Michael Wietzke",
     role: "Geschäftsführer, Eberswalde",
     rating: 5,
     text: "Wir nutzen die Büroreinigung seit über einem Jahr. Pünktlich, professionell und zu einem fairen Preis. Unsere Mitarbeiter schätzen die saubere Arbeitsumgebung sehr.",
+    source: "manual"
   },
   {
     name: "Anna Schmidt",
     role: "Hausbesitzerin, Bernau",
     rating: 5,
     text: "Die Treppenhausreinigung wird regelmäßig und mit größter Sorgfalt durchgeführt. Unser Treppenhaus sieht immer einladend und gepflegt aus. Sehr empfehlenswert!",
+    source: "manual"
   },
 ];
 
@@ -123,6 +126,15 @@ export default function HomePage() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [sparkles, setSparkles] = useState([]);
+  const [expandedReview, setExpandedReview] = useState(null);
+
+  const truncateText = (text, maxLength = 150) => {
+    if (text.length <= maxLength) return { text, isTruncated: false };
+    return {
+      text: text.substring(0, maxLength).trim(),
+      isTruncated: true
+    };
+  };
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -144,7 +156,7 @@ export default function HomePage() {
       setScrolled(window.scrollY > 50);
 
       // Update active section based on scroll position
-      const sections = ["home", "services", "about", "locations", "contact"];
+      const sections = ["home", "services", "about", "locations", "testimonials", "contact"];
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
@@ -311,19 +323,26 @@ export default function HomePage() {
 
               {/* Desktop Menu */}
               <div className="hidden md:flex items-center space-x-8">
-                {["Home", "Services", "About", "Locations", "Contact"].map(
+                {[
+                  { label: "Home", section: "home" },
+                  { label: "Services", section: "services" },
+                  { label: "About", section: "about" },
+                  { label: "Locations", section: "locations" },
+                  { label: "Bewertungen", section: "testimonials" },
+                  { label: "Contact", section: "contact" }
+                ].map(
                   (item) => (
                     <button
-                      key={item}
-                      onClick={() => scrollToSection(item.toLowerCase())}
+                      key={item.section}
+                      onClick={() => scrollToSection(item.section)}
                       className={`relative text-sm font-medium transition-colors duration-300 ${
-                        activeSection === item.toLowerCase()
+                        activeSection === item.section
                           ? "text-[#5aec8b]"
                           : "text-gray-700 hover:text-[#5aec8b]"
                       }`}
                     >
-                      {item}
-                      {activeSection === item.toLowerCase() && (
+                      {item.label}
+                      {activeSection === item.section && (
                         <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#5aec8b] animate-[slideIn_0.3s_ease-out]"></span>
                       )}
                     </button>
@@ -378,14 +397,24 @@ export default function HomePage() {
           {mobileMenuOpen && (
             <div className="md:hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-t border-gray-200 dark:border-slate-700">
               <div className="px-4 py-6 space-y-4">
-                {["Home", "Services", "About", "Locations", "Contact"].map(
+                {[
+                  { label: "Home", section: "home" },
+                  { label: "Services", section: "services" },
+                  { label: "About", section: "about" },
+                  { label: "Locations", section: "locations" },
+                  { label: "Bewertungen", section: "testimonials" },
+                  { label: "Contact", section: "contact" }
+                ].map(
                   (item) => (
                     <button
-                      key={item}
-                      onClick={() => scrollToSection(item.toLowerCase())}
+                      key={item.section}
+                      onClick={() => {
+                        scrollToSection(item.section);
+                        setMobileMenuOpen(false);
+                      }}
                       className="block w-full text-left text-lg font-medium text-gray-700 dark:text-slate-300 hover:text-[#5aec8b] transition-colors"
                     >
-                      {item}
+                      {item.label}
                     </button>
                   ),
                 )}
@@ -801,41 +830,108 @@ export default function HomePage() {
                 {/* Render testimonials multiple times for seamless infinite loop */}
                 {[...Array(6)]
                   .flatMap(() => testimonials)
-                  .map((testimonial, index) => (
-                    <div
-                      key={index}
-                      className="flex-shrink-0 w-[350px] bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-[#5aec8b]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[#5aec8b]/10"
-                    >
-                      <div className="flex items-center justify-between mb-6">
-                        <Quote className="w-10 h-10 text-[#5aec8b] opacity-50" />
-                        <div className="flex gap-1">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className="w-5 h-5 fill-[#5aec8b] text-[#5aec8b]"
-                            />
-                          ))}
+                  .map((testimonial, index) => {
+                    const { text, isTruncated } = truncateText(testimonial.text, 150);
+                    return (
+                      <div
+                        key={index}
+                        onClick={() => setExpandedReview(testimonial)}
+                        className="flex-shrink-0 w-[350px] bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-slate-700/50 hover:border-[#5aec8b]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[#5aec8b]/10 cursor-pointer"
+                      >
+                        <div className="flex items-center justify-between mb-6">
+                          <Quote className="w-10 h-10 text-[#5aec8b] opacity-50" />
+                          <div className="flex gap-1">
+                            {[...Array(testimonial.rating)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className="w-5 h-5 fill-[#5aec8b] text-[#5aec8b]"
+                              />
+                            ))}
+                          </div>
+                        </div>
+
+                        <p className="text-gray-700 dark:text-slate-300 mb-6 leading-relaxed">
+                          "{text}
+                          {isTruncated && (
+                            <span className="text-[#5aec8b] font-medium ml-1">...Mehr</span>
+                          )}"
+                        </p>
+
+                        {/* Google verification badge */}
+                        {testimonial.source === 'google' && (
+                          <div className="flex items-center gap-1.5 mb-3 text-sm text-green-600 dark:text-green-400">
+                            <CheckCircle className="w-4 h-4" />
+                            <span className="font-medium">Verifizierte Google Bewertung</span>
+                          </div>
+                        )}
+
+                        <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
+                          <p className="font-semibold text-gray-900 dark:text-slate-100">
+                            {testimonial.name}
+                          </p>
+                          <p className="text-sm text-gray-600 dark:text-slate-400">
+                            {testimonial.role}
+                          </p>
                         </div>
                       </div>
-
-                      <p className="text-gray-700 dark:text-slate-300 mb-6 leading-relaxed">
-                        "{testimonial.text}"
-                      </p>
-
-                      <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
-                        <p className="font-semibold text-gray-900 dark:text-slate-100">
-                          {testimonial.name}
-                        </p>
-                        <p className="text-sm text-gray-600 dark:text-slate-400">
-                          {testimonial.role}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
               </div>
             </div>
           </div>
         </section>
+
+        {/* Expanded Review Modal */}
+        {expandedReview && (
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setExpandedReview(null)}
+          >
+            <div
+              className="bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative shadow-2xl border border-gray-200 dark:border-slate-800"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setExpandedReview(null)}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+                aria-label="Close"
+              >
+                <X className="w-6 h-6 text-gray-600 dark:text-slate-400" />
+              </button>
+
+              {/* Rating */}
+              <div className="flex gap-1 mb-4">
+                {[...Array(expandedReview.rating)].map((_, i) => (
+                  <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+
+              {/* Full review text */}
+              <p className="text-gray-700 dark:text-slate-300 text-lg leading-relaxed mb-6">
+                "{expandedReview.text}"
+              </p>
+
+              {/* Google badge if applicable */}
+              {expandedReview.source === 'google' && (
+                <div className="flex items-center gap-1.5 mb-6 text-sm text-green-600 dark:text-green-400">
+                  <CheckCircle className="w-4 h-4" />
+                  <span className="font-medium">Verifizierte Google Bewertung</span>
+                </div>
+              )}
+
+              {/* Author info */}
+              <div className="pt-6 border-t border-gray-200 dark:border-slate-700">
+                <p className="font-semibold text-gray-900 dark:text-slate-100 text-lg">
+                  {expandedReview.name}
+                </p>
+                <p className="text-gray-500 dark:text-slate-400 mt-1">
+                  {expandedReview.role}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Contact Section */}
         <section
